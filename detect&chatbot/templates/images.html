@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphs</title>
+
+    <!-- Add Chart.js for animated graphs (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* Center content */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* Body styling */
+        body {
+            background-color: #2e2e2e;
+            color: #f0f0f0;
+            font-family: 'Roboto', sans-serif;
+            padding: 20px;
+        }
+
+        /* Title styling */
+        h1 {
+            margin-bottom: 20px;
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Image container styling */
+        .image-container {
+            margin-bottom: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Hover effect on image containers */
+        .image-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Image styling */
+        img {
+            width: 100%; /* Take full width of the container */
+            border-radius: 10px;
+            transition: filter 0.3s ease-in-out;
+        }
+
+        /* Hover effect on images */
+        img:hover {
+            filter: brightness(0.8);
+        }
+
+        /* Animation keyframes for fade-in effect */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Apply fade-in animation to all images */
+        img {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* Use flexbox to center image containers */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Styling for headings */
+        h2 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: #61dafb;
+            text-transform: uppercase;
+        }
+
+        /* Add transitions to headings */
+        h2:hover {
+            color: #1db954;
+            transition: color 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Graphs</h1>
+        <div class="image-container">
+            <h2>Accuracy</h2>
+            <img src="/static/accuracy.png" alt="Accuracy Image">
+        </div>
+        <div class="image-container">
+            <h2>Loss</h2>
+            <img src="/static/loss.png" alt="Loss Image">
+        </div>
+        <div class="image-container">
+            <h2>F1 Score</h2>
+            <img src="/static/f1.png" alt="F1 Score Image">
+        </div>
+        <div class="image-container">
+            <h2>Confusion Matrix</h2>
+            <img src="/static/confus.png" alt="Confusion Matrix Image">
+        </div>
+        <div class="image-container">
+            <h2>ROC Curve</h2>
+            <img src="/static/roc_curve.png" alt="ROC Curve Image">
+        </div>
+        <div class="image-container">
+            <h2>Precision-Recall Curve</h2>
+            <img src="/static/prec_curve.png" alt="Precision-Recall Curve Image">
+        </div>
+        <div class="image-container">
+            <h2>True Positive vs. False Positive</h2>
+            <img src="/static/true_false.png" alt="True Positive vs. False Positive Image">
+        </div>
+    </div>
+</body>
+
+</html>

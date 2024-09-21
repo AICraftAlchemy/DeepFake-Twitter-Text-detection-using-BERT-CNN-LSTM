@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepFake Text Detection</title>
+    <style>
+        body {
+            background-image: url("/static/background1.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center items horizontally */
+            justify-content: flex-start; /* Align items to the top */
+            position: relative;
+        }
+        h1 {
+            color: white; /* Set text color to white */
+        }
+        form {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20vh; /* Adjust the top margin for positioning */
+            z-index: 1; /* Ensure the form is above the button */
+        }
+        #predictButton {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #chatbotButton {
+            position: absolute;
+            top: 10px; /* Adjust top position */
+            right: 10px; /* Adjust right position */
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #imagesButton {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: -250px; /* Add margin top to create space between buttons */
+            position: absolute; /* Set the position to absolute */
+            top: 45%; /* Position from the top */
+            left: 1440px; /* Position from the left */
+        }
+        label {
+            color: black;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        function startServer() {
+            window.open('http://127.0.0.1:8080');
+        }
+
+        // Function to submit form when Enter key is pressed in the textarea
+        function handleKeyPress(event) {
+            if (event.keyCode === 13 && !event.shiftKey) { // Check for Enter key without Shift
+                event.preventDefault(); // Prevent default form submission
+                document.getElementById("predictForm").submit(); // Submit the form
+            }
+        }
+
+        // Function to redirect to the images page
+        function redirectToImagesPage() {
+            window.location.href = "/images.html"; // Assuming images.html is the page containing the images
+        }
+    </script>
+</head>
+<body>
+    <h1>DeepFake Text Detection</h1>
+    <form id="predictForm" action="/predict" method="post">
+        <label for="tweet" style="color: black; font-weight: bold;">Enter a tweet to predict:</label><br>
+        <textarea id="tweet" name="text" rows="4" cols="50" onkeypress="handleKeyPress(event)"></textarea><br><br>
+        <input id="predictButton" type="submit" value="Predict">
+    </form>
+    <button id="chatbotButton" onclick="startServer()">Chatbot</button>
+    <button id="imagesButton" onclick="redirectToImagesPage()">Graphs</button>
+</body>
+</html>

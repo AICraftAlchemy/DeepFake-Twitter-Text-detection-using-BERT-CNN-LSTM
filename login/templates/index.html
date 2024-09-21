@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepfake Text Detection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('/static/back.jpg'); /* Path to your background image */
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333; /* Text color */
+        }
+
+        /* Container Styles */
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px; /* Limit container width */
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            background: transparent; /* Transparent background */
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: rgba(0, 123, 255, 0.9); /* Sidebar background */
+            width: 300px;
+            padding: 20px;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sidebar h2 {
+            margin: 0 0 20px; /* Adjust spacing */
+            font-size: 2rem;
+            color: #fff; /* Text color */
+        }
+
+        .sidebar p {
+            margin: 0 0 10px; /* Adjust spacing */
+            text-align: center;
+            font-size: 1.1rem;
+            color: #fff; /* Text color */
+        }
+
+        /* Content Styles */
+        .content {
+            flex: 1;
+            padding: 40px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8); /* Transparent white background */
+        }
+
+        .content h1 {
+            margin: 0 0 20px; /* Adjust spacing */
+            font-size: 2.5rem;
+            color: #333; /* Text color */
+        }
+
+        /* Tabs Styles */
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 10px;
+            background-color: #007bff;
+            color: #fff; /* Text color */
+            transition: background-color 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: #0056b3; /* Hover background color */
+        }
+
+        .tab.active {
+            background-color: #0056b3; /* Active background color */
+        }
+
+        /* Tab content styles */
+        .tab-content {
+            display: none;
+        }
+
+        /* Additional content styles */
+        .additional-content {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .additional-content h2 {
+            margin-bottom: 20px; /* Adjust spacing */
+            font-size: 1.5rem;
+        }
+
+        .additional-content p {
+            margin-bottom: 10px; /* Adjust spacing */
+            font-size: 1.1rem;
+        }
+
+        /* Links styles */
+        .login-link, .logout-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .login-link a, .logout-link a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .login-link a:hover, .logout-link a:hover {
+            color: #0056b3; /* Hover text color */
+        }
+
+        /* Rights reserved styles */
+        .rights-reserved {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar with content about Deepfake Text Detection -->
+        <div class="sidebar">
+            <h2>Deepfake Text Detection</h2>
+            <p>Welcome to Deepfake Text Detection, where we help you combat the spread of false information.</p>
+            <p>Join us in fighting misinformation and protecting the truth.</p>
+        </div>
+
+        <!-- Main content with register and login forms -->
+        <div class="content">
+            <h1>Welcome to Deepfake Text Detection</h1>
+
+            <!-- Tabs for Login and Register -->
+            <div class="tabs">
+                <div class="tab active" onclick="openTab(event, 'register')">Register</div>
+                <div class="tab" onclick="openTab(event, 'login')">Login</div>
+            </div>
+
+            <!-- Register Form -->
+            <div class="tab-content" id="register">
+                <form id="register-form" action="/" method="post">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" name="register" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+
+            <!-- Login Form -->
+            <div class="tab-content" id="login" style="display: none;">
+                <form id="login-form" action="/" method="post">
+                    <div class="form-group">
+                        <label for="login-username-email">Username or Email:</label>
+                        <input type="text" id="login-username-email" name="username_email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password:</label>
+                        <input type="password" id="login-password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" name="login" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+
+            <!-- Additional Content about Deepfake Text Detection -->
+            <div class="additional-content">
+                <h2>Why Choose Deepfake Text Detection?</h2>
+                <p>Our service offers state-of-the-art technology to identify and flag potential deepfake text.</p>
+                <p>We prioritize accuracy and privacy, ensuring your data is kept safe and secure.</p>
+                <p>Join us in the fight against misinformation and maintain the integrity of digital content.</p>
+            </div>
+
+            <!-- Links for Registration and Login -->
+            <div class="login-link">
+                Don't have an account? <a href="#" onclick="openTab(event, 'register')">Register here</a>.
+            </div>
+            <div class="logout-link" style="display: none;">
+                Already have an account? <a href="#" onclick="openTab(event, 'login')">Login here</a>.
+            </div>
+
+            <!-- Rights Reserved -->
+            <div class="rights-reserved">
+                &copy; 2024 Deepfake Text Detection. All Rights Reserved.
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap and custom scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabContent, tabLinks;
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+            tabLinks = document.getElementsByClassName("tab");
+            for (i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.classList.add("active");
+
+            if (tabName === 'register') {
+                document.querySelector('.login-link').style.display = 'none';
+                document.querySelector('.logout-link').style.display = 'block';
+            } else {
+                document.querySelector('.login-link').style.display = 'block';
+                document.querySelector('.logout-link').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>

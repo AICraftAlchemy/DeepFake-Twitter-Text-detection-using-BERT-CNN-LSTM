@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT-2 Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Light mode styles */
+        .light-mode {
+            background-color: #f5f5f5;
+            color: #000000;
+        }
+
+        .light-mode .container {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .light-mode .chat-box {
+            border: 1px solid #ccc;
+        }
+
+        .light-mode .user-message {
+            background-color: #e6f2ff;
+        }
+
+        .light-mode .bot-message {
+            background-color: #ccffcc;
+        }
+
+        /* Dark mode styles */
+        .dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .dark-mode .container {
+            background-color: #212121;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .chat-box {
+            border: 1px solid #333;
+        }
+
+        .dark-mode .user-message {
+            background-color: #333;
+        }
+
+        .dark-mode .bot-message {
+            background-color: #444;
+        }
+
+        /* Common styles */
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .chat-box {
+            overflow-y: scroll;
+            height: 300px;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .user-message, .bot-message {
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        input[type="text"],
+        input[type="submit"] {
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        input[type="submit"] {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <div class="container">
+        <h1>Welcome to GPT-2 Chatbot</h1>
+        <div class="chat-box" id="chat-box">
+            <div class="bot-message">Bot: Hello! How can I assist you today?</div>
+        </div>
+        <form id="user-input-form">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <input type="submit" value="Send">
+        </form>
+        <button id="mode-toggle">Toggle Dark Mode</button>
+    </div>
+
+    <script>
+        document.getElementById("user-input-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var userMessage = document.getElementById("user-input").value;
+            sendMessage(userMessage);
+            document.getElementById("user-input").value = ""; // Clear input field
+        });
+
+        function sendMessage(message) {
+            var chatBox = document.getElementById("chat-box");
+            var userMessageElement = document.createElement("div");
+            userMessageElement.className = "user-message";
+            userMessageElement.innerHTML = "You: " + message;
+            chatBox.appendChild(userMessageElement);
+
+            fetch("/get-response", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: "user_input=" + encodeURIComponent(message)
+            })
+            .then(response => response.text())
+            .then(data => {
+                var botMessageElement = document.createElement("div");
+                botMessageElement.className = "bot-message";
+                botMessageElement.innerHTML = "Bot: " + truncateResponse(data.replace("You: ", ""));
+                chatBox.appendChild(botMessageElement);
+                chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom of chat box
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        function truncateResponse(response) {
+            var words = response.split(" ");
+            var truncatedWords = words.slice(0, 20);
+            var truncatedResponse = truncatedWords.join(" ");
+            if (words.length > 20) {
+                truncatedResponse += "...";
+            }
+            return truncatedResponse;
+        }
+
+        // Toggle dark mode
+        document.getElementById("mode-toggle").addEventListener("click", function() {
+            var body = document.body;
+            body.classList.toggle("dark-mode");
+            var currentMode = body.classList.contains("dark-mode") ? "Dark" : "Light";
+            document.getElementById("mode-toggle").textContent = " " + currentMode + " Mode";
+        });
+    </script>
+</body>
+</html>
